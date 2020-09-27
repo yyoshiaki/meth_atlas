@@ -59,9 +59,14 @@ def parse_bismark(f, t):
 df = parse_bismark(f, t)
 df.columns = ['CpGs', n]
 if t != 0:
-    df.to_csv('{n}.tile{t}bp.csv'.format(t=t, n=n), index=None)
+    f_out = '{n}.tile{t}bp.csv'.format(t=t, n=n)
 else:
-    df.to_csv('{}.csv'.format(n), index=None)
+    f_out = '{}.csv'.format(n)
+    df.to_csv(f_out, index=None)
+
+df.to_csv(f_out, index=None)
+print(f_out, 'generated.')
 
 os.remove('tmp.sort.txt')
 os.remove('tmp.tile.txt')
+print('Temporary files deleted.')
