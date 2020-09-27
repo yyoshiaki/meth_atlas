@@ -46,6 +46,23 @@ optional arguments:
                         Output directory
 ```
 
+For conversion of bismark file with/without tiling.
+```
+usage: convert_bismark.py [-h] [--tile TILE] [--bedtools BEDTOOLS]
+                          file sample_name
+
+convert bismark for meth_atlas
+
+positional arguments:
+  file                 input bismark file
+  sample_name          sample name
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --tile TILE          If tile windows, specify window size (bp).
+  --bedtools BEDTOOLS  Full path to bedtools
+```
+
 ---
 ### Example
 ```
