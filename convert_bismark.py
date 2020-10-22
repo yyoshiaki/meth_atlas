@@ -52,7 +52,8 @@ def parse_bismark(f, t):
         df['CpGs'] = df['chromosome'] + ':' + (df['start']).astype(str)
     else:
         df['CpGs'] = df['chromosome'] + ':' + (df['start']).astype(str) + '-' + (df['end']).astype(str)
-    df['methylated_frequency'] /= 100
+#     df['methylated_frequency'] /= 100
+    df['methylated_frequency'] = (df['meth'] + 1) / (df['meth'] + df['deme'] + 2)
     df = df[['CpGs', 'methylated_frequency']]
     return df
 
