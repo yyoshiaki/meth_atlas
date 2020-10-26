@@ -11,14 +11,16 @@ parser = argparse.ArgumentParser(description='convert bismark for meth_atlas')
 parser.add_argument('file', type=str, help='input bismark file')
 parser.add_argument('sample_name', type=str, help='sample name')
 parser.add_argument('--tile', type=int, default=0, help='If tile windows, specify window size (bp).')
+parser.add_argument('--th_cov', type=int, default=0, help='Threshold of coverage within CpG or tile.')
 parser.add_argument('--bedtools', type=str, default='bedtools', help='Full path to bedtools')
 
 args = parser.parse_args()
 f = args.file
 n = args.sample_name
 t = args.tile
+# th_cov = args.th_cov
+th_cov = 5
 p_bedtools = args.bedtools
-
 
 def check_tile(t):
     if not os.path.exists('{d}/data/hg38.win{t}.bed.gz'.format(d=os.path.dirname(os.path.abspath(__file__)), t=t)):
@@ -52,8 +54,9 @@ def parse_bismark(f, t):
         df['CpGs'] = df['chromosome'] + ':' + (df['start']).astype(str)
     else:
         df['CpGs'] = df['chromosome'] + ':' + (df['start']).astype(str) + '-' + (df['end']).astype(str)
-#     df['methylated_frequency'] /= 100
-    df['methylated_frequency'] = (df['meth'] + 1) / (df['meth'] + df['deme'] + 2)
+    df['methylated_frequency'] /= 100
+    # df = df[df[['meth', 'deme']].sum(axis=1) > th_cov]
+    # df['methylated_frequency'] = (df['meth'] + 1) / (df['meth'] + df['deme'] + 2)
     df = df[['CpGs', 'methylated_frequency']]
     return df
 
