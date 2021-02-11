@@ -21,7 +21,7 @@ df_nanopore['pos'] += 1
 df_nanopore['meth'] = df_nanopore['fwd_meth'] + df_nanopore['rev_meth']
 df_nanopore['unmeth'] = df_nanopore['fwd_unmeth'] + df_nanopore['rev_unmeth']
 df_nanopore = df_nanopore[df_nanopore['meth'] + df_nanopore['unmeth'] > 0]
-df_nanopore['rate'] = df_nanopore['meth'] / (df_nanopore['meth'] + df_nanopore['unmeth'])
+df_nanopore['rate'] = (df_nanopore['meth'] / (df_nanopore['meth'] + df_nanopore['unmeth'])) * 100
 df_nanopore = df_nanopore[['chr', 'pos', 'pos', 'rate', 'meth', 'unmeth']]
 df_nanopore.columns = ['chr', 'pos', 'pos2', 'rate', 'meth', 'unmeth']
 df_nanopore.to_csv(f_o, sep='\t', header=None, index=None)
