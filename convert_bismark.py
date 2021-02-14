@@ -12,6 +12,7 @@ parser.add_argument('file', type=str, help='input bismark file')
 parser.add_argument('sample_name', type=str, help='sample name')
 parser.add_argument('--tile', type=int, default=0, help='If tile windows, specify window size (bp).')
 parser.add_argument('--reference', type=str, default='hg38', help='hg38 or mm10')
+parser.add_argument('--outdir', type=str, default='./', help="output directory")
 parser.add_argument('--th_cov', type=int, default=0, help='Threshold of coverage within CpG or tile.')
 parser.add_argument('--bedtools', type=str, default='bedtools', help='Full path to bedtools')
 
@@ -22,6 +23,7 @@ t = args.tile
 # th_cov = args.th_cov
 ref = args.reference
 th_cov = 5
+dir_out = args.outdir
 p_bedtools = args.bedtools
 
 if not ref in ['hg38', 'mm10']:
@@ -68,9 +70,9 @@ def parse_bismark(f, t):
 df = parse_bismark(f, t)
 df.columns = ['CpGs', n]
 if t != 0:
-    f_out = '{n}.tile{t}bp.csv'.format(t=t, n=n)
+    f_out = '{d}/{n}.tile{t}bp.csv'.format(d=dir_out, t=t, n=n)
 else:
-    f_out = '{}.csv'.format(n)
+    f_out = '{d}/{n}.csv'.format(d=dir_out, n=n)
     df.to_csv(f_out, index=None)
 
 df.to_csv(f_out, index=None)
